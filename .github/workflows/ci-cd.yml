@@ -89,7 +89,6 @@ jobs:
         run: kill $(cat app.pid)
 
       - name: Run unit tests
-      - name: Run unit tests
         run: mvn -B -Dspring.cloud.bus.enabled=false -Dspring.autoconfigure.exclude=org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration,org.springframework.cloud.bus.BusAutoConfiguration test
 
 
