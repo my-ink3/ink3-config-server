@@ -70,8 +70,14 @@ jobs:
 
       - name: Run application in background
         run: |
-          nohup java -jar target/ink3-config-${{ steps.extract_version.outputs.version }}.jar --server.port=10264 --spring.profiles.active=test  --spring.rabbitmq.host=${{ secrets.RABBITMQ_HOST }} --spring.rabbitmq.port=${{ secrets.RABBITMQ_PORT }} --spring.rabbitmq.username=${{ secrets.RABBITMQ_USERNAME }} --spring.rabbitmq.password=${{ secrets.RABBITMQ_PASSWORD }}  > app.log 2>&1 &
+          nohup java -jar target/ink3-config-${{ steps.extract_version.outputs.version }}.jar \
+            --server.port=10264 \
+            --spring.profiles.active=test \
+            --spring.cloud.bus.enabled=false \
+            --spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration,org.springframework.cloud.bus.BusAutoConfiguration \
+            > app.log 2>&1 &
           echo $! > app.pid
+
 
       - name: Wait for application to start
         run: sleep 15
